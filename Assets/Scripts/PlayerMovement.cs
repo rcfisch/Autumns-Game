@@ -39,6 +39,11 @@ public class PlayerMovement : MonoBehaviour
     private bool canJumpCancel;
     private bool startFlashing = true;
     [SerializeField]private float flashStartCount;
+    [Header("Jump Buffering")]
+    private float jumpBufferCounter;
+    [SerializeField]private float jumpBuffer;
+    private float wallJumpBufferCounter;
+    [SerializeField]private float wallJumpBuffer;
 
     [Header("GameObjects and Vectors")]
     public GameObject respawnPoint;
@@ -92,13 +97,19 @@ public class PlayerMovement : MonoBehaviour
 
     public void Jump()
     {
+        if(Input.GetKeyDown("space"))
+        {
+            jumpBufferCounter = jumpBuffer;
+        } else{
+            jumpBufferCounter -= Time.deltaTime;
+        }
         if(IsGrounded()){
             cotoyeTimeCounter = cotoyeTime;
         }else{
             cotoyeTimeCounter -= Time.deltaTime;
         }
         jumpDelay += Time.deltaTime;
-        if(Input.GetKeyDown("space") && IsGrounded() || Input.GetKeyDown("space") && cotoyeTimeCounter > 0)
+        if(jumpBufferCounter >= 0 && IsGrounded() || jumpBufferCounter >= 0 && cotoyeTimeCounter > 0)
         {   
             //rb.gravityScale = playerGravity * 1f;
             if(jumpDelay >= 0.1)
@@ -117,6 +128,12 @@ public class PlayerMovement : MonoBehaviour
     }
     private void WallJumping()
     {
+        if(Input.GetKeyDown("space"))
+        {
+            wallJumpBufferCounter = jumpBuffer;
+        } else{
+            wallJumpBufferCounter -= Time.deltaTime;
+        }
         if(IsGrounded())
         {
             wallJumpsCount = wallJumps;
@@ -127,7 +144,7 @@ public class PlayerMovement : MonoBehaviour
         }else{
             wallTimeCounter -= Time.deltaTime;
         }
-        if(Input.GetKeyDown("space") && isWallSliding && jumpDelay >= 0.1 && wallJumpsCount > 0 ||Input.GetKeyDown("space") && wallTimeCounter > 0 && jumpDelay >= 0.1 && wallJumpsCount > 0)
+        if(wallJumpBufferCounter > 0 && isWallSliding && jumpDelay >= 0.1 && wallJumpsCount > 0 || wallJumpBufferCounter > 0 && wallTimeCounter > 0 && jumpDelay >= 0.1 && wallJumpsCount > 0)
         {
             rb.AddForce(transform.up * wallJumpForceY, ForceMode2D.Impulse);
             if(facingAtJump == true)
