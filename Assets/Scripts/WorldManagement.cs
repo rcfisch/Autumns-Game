@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class WorldManagement : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        FindObjectOfType<GameObject>();
+        GameObject[] gameObjects = FindObjectsOfType<GameObject>();
+
+        foreach(GameObject gameObject in gameObjects)
+        {
+            if(gameObject.tag == "Player")
+            {
+                if(gameObject.transform.position.y <= -10)
+                {
+                    gameObject.GetComponent<PlayerMovement>().Death();
+                }
+            }
+        }
     }
 }

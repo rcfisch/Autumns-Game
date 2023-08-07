@@ -192,7 +192,8 @@ public class PlayerMovement : MonoBehaviour
         rb.isKinematic = false;
         bc.enabled = true;
         notDead = true;
-        transform.position = respawnPoint.transform.position;
+        jumpBufferCounter = 0f;
+
     }
     private void Animations()
     {
