@@ -22,6 +22,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]private float maxUpwardsSpeed;
     [SerializeField]private float wallSlidingSpeed;
     [SerializeField]private float playerSpeed;
+    private float defaultPlayerGravity;
+    [SerializeField]private float fallingGravityScale;
 
     [Header("Components")]
     private Rigidbody2D rb;
@@ -62,6 +64,7 @@ public class PlayerMovement : MonoBehaviour
         bc = GetComponent<BoxCollider2D>();
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
+        defaultPlayerGravity = rb.gravityScale;
     }
     private void FixedUpdate()
     {
@@ -74,6 +77,7 @@ public class PlayerMovement : MonoBehaviour
         Animations();
         WallSliding();
         WallJumping();
+        JumpGravityScale();
     }
     
     private void Movement()
@@ -171,6 +175,15 @@ public class PlayerMovement : MonoBehaviour
        }
     }
 
+    private void JumpGravityScale()
+    {
+        if(rb.velocity.y <= 0 && !IsGrounded() && !IsOnWall())
+        {
+            rb.gravityScale = defaultPlayerGravity * fallingGravityScale;
+        }else{
+            rb.gravityScale = defaultPlayerGravity;
+        }
+    }
     public void Death()
     {
         rb.velocity = new Vector3(0f, 0f, 0f);
