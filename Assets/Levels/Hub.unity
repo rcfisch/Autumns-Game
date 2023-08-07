@@ -1120,11 +1120,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 999aab5daafd1644dba34d89bdbc4ad5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds:
-  - clip: {fileID: 0}
-    volume: 0
-    pitch: 0
-    source: {fileID: 0}
 --- !u!1 &705176655
 GameObject:
   m_ObjectHideFlags: 0
@@ -1196,9 +1191,11 @@ MonoBehaviour:
   wallSlidingSpeed: 1
   playerSpeed: 4000
   respawnDelay: 1.4
-  cotoyeTime: 0.4
+  cotoyeTime: 0.3
   wallTime: 0.2
   flashStartCount: 1
+  jumpBuffer: 0.1
+  wallJumpBuffer: 0.1
   respawnPoint: {fileID: 1029869424}
   wallCheck: {fileID: 150634905}
   groundCheck: {fileID: 425166910}
