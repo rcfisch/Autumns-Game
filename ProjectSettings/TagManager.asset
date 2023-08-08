@@ -41,6 +41,9 @@ TagManager:
   - name: Background
     uniqueID: 372956119
     locked: 0
+  - name: BaseTiles
+    uniqueID: 1273644479
+    locked: 0
   - name: Playercharacter
     uniqueID: 2635773495
     locked: 0
