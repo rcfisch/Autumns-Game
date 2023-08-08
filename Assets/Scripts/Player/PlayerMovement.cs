@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {   
+    public InputAction playerControls;
+    public InputAction playerJump;
+    public InputAction playerHit;
     [Header("Player Input and Logic")]
     [SerializeField]private float jumpForce;
     public float targetSpeed;
@@ -41,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
     private bool canJumpCancel;
     private bool startFlashing = true;
     [SerializeField]private float flashStartCount;
+
     [Header("Jump Buffering")]
     private float jumpBufferCounter;
     [SerializeField]private float jumpBuffer;
@@ -82,7 +87,7 @@ public class PlayerMovement : MonoBehaviour
     
     private void Movement()
     {
-        float HorizontalInput = Input.GetAxisRaw("Horizontal");
+        Vector2 Input = playerControls.ReadValue<Vector2>();
         if(IsGrounded()){
             float speedDiff = targetSpeed - rb.velocity.x;
             cotoyeTimeCounter = cotoyeTime;
@@ -90,18 +95,18 @@ public class PlayerMovement : MonoBehaviour
             float speedDiff = targetSpeed/2 - rb.velocity.x;
             cotoyeTimeCounter -= Time.deltaTime;
         }
-
+        Debug.Log(Input);
         if(IsGrounded()){
-            rb.AddForce(transform.right * HorizontalInput * targetSpeed * playerSpeed * Time.deltaTime, ForceMode2D.Force);
+            rb.AddForce(transform.right * Input.x * targetSpeed * playerSpeed * Time.deltaTime, ForceMode2D.Force);
         }else{
-            rb.AddForce(transform.right * HorizontalInput * targetSpeed * playerSpeed * airMultiplier * Time.deltaTime, ForceMode2D.Force);
+            rb.AddForce(transform.right * Input.x * targetSpeed * playerSpeed * airMultiplier * Time.deltaTime, ForceMode2D.Force);
         }
         rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -maxUpwardsSpeed, maxFallingSpeed ));
     }
 
     public void Jump()
     {
-        if(Input.GetKeyDown("space"))
+        if(playerJump.ReadValue<float>() > 0)
         {
             jumpBufferCounter = jumpBuffer;
         } else{
@@ -124,7 +129,7 @@ public class PlayerMovement : MonoBehaviour
                 cotoyeTimeCounter = 0;
             }
         }
-        if(Input.GetKeyUp("space") && canJumpCancel)
+        if(playerJump.ReadValue<float>() == 0 && canJumpCancel)
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y/2);
             canJumpCancel = false;
@@ -132,7 +137,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void WallJumping()
     {
-        if(Input.GetKeyDown("space"))
+        if(playerJump.ReadValue<float>() > 0)
         {
             wallJumpBufferCounter = jumpBuffer;
         } else{
@@ -232,11 +237,11 @@ public class PlayerMovement : MonoBehaviour
             } else{
                 anim.SetBool("WallSliding", false);
             }
-            if(Input.GetAxisRaw("Horizontal") > 0){
+            if(playerControls.ReadValue<Vector2>().x > 0){
                 transform.localScale = new Vector3(1, transform.localScale.y, 1);
                 facingRight = true;
 
-            } else if(Input.GetAxisRaw("Horizontal") < 0){
+            } else if(playerControls.ReadValue<Vector2>().x < 0){
                 transform.localScale = new Vector3(-1, transform.localScale.y, 1);
                 facingRight = false;
             }
@@ -267,5 +272,17 @@ public class PlayerMovement : MonoBehaviour
     private bool IsOnWall()
     {
         return Physics2D.OverlapCircle(wallCheck.position, playerWallCheck, WallLayer);
+    }
+    private void OnEnable()
+    {
+        playerControls.Enable();
+        playerHit.Enable();
+        playerJump.Enable();
+    }
+    private void OnDisable()
+    {
+        playerControls.Disable();
+        playerHit.Disable();
+        playerJump.Disable();
     }
 } 
