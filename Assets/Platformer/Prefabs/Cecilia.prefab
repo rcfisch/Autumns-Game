@@ -45,6 +45,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d15e3700dba88a1418718599a3d1697e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  swordLevel: 0
+  level1Hits: 0
+  level2Hits: 0
+  level3Hits: 0
+  level1Sprite: {fileID: 0}
+  level2Sprite: {fileID: 0}
+  level3Sprite: {fileID: 0}
+  level4Sprite: {fileID: 0}
 --- !u!1 &3568679031640984423
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,8 +394,8 @@ MonoBehaviour:
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings:
-    - m_Name: Joystick1
-      m_Id: db5bc361-e111-4671-add8-95249987b8dc
+    - m_Name: playerControls
+      m_Id: bf57d711-12df-4d96-82e0-121f4fdaa4d4
       m_Path: 2DVector
       m_Interactions: 
       m_Processors: 
@@ -395,32 +403,32 @@ MonoBehaviour:
       m_Action: Player Controls
       m_Flags: 4
     - m_Name: up
-      m_Id: a7885694-d6dd-4aa1-84b7-bd28e8cf04a1
-      m_Path: <Joystick>/stick/up
+      m_Id: 7f742806-50be-4bc3-a2c8-6ae4ad87a131
+      m_Path: <SwitchProControllerHID>/leftStick/up
       m_Interactions: 
       m_Processors: 
       m_Groups: 
       m_Action: Player Controls
       m_Flags: 8
     - m_Name: down
-      m_Id: db522a2f-4a13-46b1-89ff-39cdc8a7560a
-      m_Path: <Joystick>/stick/down
+      m_Id: f12af923-9ce1-4518-8263-d7ee82a042df
+      m_Path: <SwitchProControllerHID>/leftStick/down
       m_Interactions: 
       m_Processors: 
       m_Groups: 
       m_Action: Player Controls
       m_Flags: 8
     - m_Name: left
-      m_Id: cdd5eee5-7954-423d-bab8-f161c641d166
-      m_Path: <Joystick>/stick/left
+      m_Id: a59b7582-cfc2-441d-919e-68e584d3c1d9
+      m_Path: <SwitchProControllerHID>/leftStick/left
       m_Interactions: 
       m_Processors: 
       m_Groups: 
       m_Action: Player Controls
       m_Flags: 8
     - m_Name: right
-      m_Id: b9f0dc26-c90f-429b-b916-f9a95ff1c669
-      m_Path: <Joystick>/stick/right
+      m_Id: fcbaa481-011a-4aad-a8e7-965f97ca438a
+      m_Path: <SwitchProControllerHID>/leftStick/right
       m_Interactions: 
       m_Processors: 
       m_Groups: 

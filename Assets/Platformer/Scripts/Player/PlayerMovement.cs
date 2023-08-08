@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public InputAction playerControls;
     public InputAction playerJump;
     public InputAction playerHit;
+    private Vector2 Input;
     [Header("Player Input and Logic")]
     [SerializeField]private float jumpForce;
     public float targetSpeed;
@@ -87,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
     
     private void Movement()
     {
-        Vector2 Input = playerControls.ReadValue<Vector2>();
+        Input = new Vector2(Mathf.Round(playerControls.ReadValue<Vector2>().x), Mathf.Round(playerControls.ReadValue<Vector2>().y));
         if(IsGrounded()){
             float speedDiff = targetSpeed - rb.velocity.x;
             cotoyeTimeCounter = cotoyeTime;
@@ -117,21 +118,23 @@ public class PlayerMovement : MonoBehaviour
         }else{
             cotoyeTimeCounter -= Time.deltaTime;
         }
-        jumpDelay += Time.deltaTime;
+        jumpDelay -= Time.deltaTime;
         if(jumpBufferCounter >= 0 && IsGrounded() || jumpBufferCounter >= 0 && cotoyeTimeCounter > 0)
         {   
             //rb.gravityScale = playerGravity * 1f;
-            if(jumpDelay >= 0.1)
+            if(jumpDelay <= 0f)
             {
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-                jumpDelay = 0f;
+                jumpDelay = 0.3f;
                 canJumpCancel = true;
                 cotoyeTimeCounter = 0;
+                jumpBufferCounter = 0f;
+                wallJumpBufferCounter = 0.1f;
             }
         }
         if(playerJump.ReadValue<float>() == 0 && canJumpCancel)
         {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y/2);
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y/1.5f);
             canJumpCancel = false;
         } 
     }
@@ -153,20 +156,25 @@ public class PlayerMovement : MonoBehaviour
         }else{
             wallTimeCounter -= Time.deltaTime;
         }
-        if(wallJumpBufferCounter > 0 && isWallSliding && jumpDelay >= 0.1 && wallJumpsCount > 0 || wallJumpBufferCounter > 0 && wallTimeCounter > 0 && jumpDelay >= 0.1 && wallJumpsCount > 0)
+        if(wallJumpBufferCounter > 0 && isWallSliding && wallJumpsCount > 0 || wallJumpBufferCounter > 0 && wallTimeCounter > 0 && wallJumpsCount > 0)
         {
-            rb.AddForce(transform.up * wallJumpForceY, ForceMode2D.Impulse);
-            if(facingAtJump == true)
+            if(jumpDelay <= 0)
             {
-                rb.AddForce(transform.right * -wallJumpForceX, ForceMode2D.Impulse);
-            } else{
-                rb.AddForce(transform.right * wallJumpForceX, ForceMode2D.Impulse);
+                rb.AddForce(transform.up * wallJumpForceY, ForceMode2D.Impulse);
+                if(facingAtJump == true)
+                {
+                    rb.AddForce(transform.right * -wallJumpForceX, ForceMode2D.Impulse);
+                } else{
+                    rb.AddForce(transform.right * wallJumpForceX, ForceMode2D.Impulse);
+                }
+                wallJumpsCount -= 1f;
+                jumpDelay = 0.3f;
+                canJumpCancel = true;
+                cotoyeTimeCounter = 0;
+                wallTimeCounter = 0;
+                wallJumpBufferCounter = 0f;
+                jumpBufferCounter = 0f;
             }
-            wallJumpsCount -= 1f;
-            jumpDelay = 0f;
-            canJumpCancel = true;
-            cotoyeTimeCounter = 0;
-            wallTimeCounter = 0;
         }
     }
     private void WallSliding()
@@ -265,9 +273,9 @@ public class PlayerMovement : MonoBehaviour
     }
     private bool IsGrounded()
     {
-        //RaycastHit2D raycastHit = Physics2D.BoxCast(bc.bounds.center, bc.bounds.size, 0f, Vector2.down, playerJumpCheck, GroundLayer);
+        RaycastHit2D raycastHit = Physics2D.BoxCast(bc.bounds.center, bc.bounds.size, 0f, Vector2.down, playerGroundCheck, GroundLayer);
         //Debug.Log(raycastHit.collider.gameObject.name);
-        return Physics2D.OverlapCircle(groundCheck.position, playerGroundCheck, GroundLayer);
+        return raycastHit;
     }
     private bool IsOnWall()
     {
