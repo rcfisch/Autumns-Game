@@ -20,6 +20,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]private float wallJumps;
     private float wallJumpsCount;
     private bool notDead = true;
+    //to prevent you from constantly jumping while holding down A
+    private bool alreadyJumped;
 
     [Header("Player Speed")]
     [SerializeField]private float airMultiplier;
@@ -107,11 +109,15 @@ public class PlayerMovement : MonoBehaviour
 
     public void Jump()
     {
-        if(playerJump.ReadValue<float>() > 0)
+
+        if(playerJump.ReadValue<float>() > 0 && alreadyJumped == false)
         {
             jumpBufferCounter = jumpBuffer;
         } else{
             jumpBufferCounter -= Time.deltaTime;
+        }
+        if(playerJump.ReadValue<float>() > 0 && !IsGrounded()){
+            alreadyJumped = true;
         }
         if(IsGrounded()){
             cotoyeTimeCounter = cotoyeTime;
@@ -122,7 +128,7 @@ public class PlayerMovement : MonoBehaviour
         if(jumpBufferCounter >= 0 && IsGrounded() || jumpBufferCounter >= 0 && cotoyeTimeCounter > 0)
         {   
             //rb.gravityScale = playerGravity * 1f;
-            if(jumpDelay <= 0f)
+            if(jumpDelay <= 0f && alreadyJumped == false)
             {
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 jumpDelay = 0.3f;
@@ -130,8 +136,14 @@ public class PlayerMovement : MonoBehaviour
                 cotoyeTimeCounter = 0;
                 jumpBufferCounter = 0f;
                 wallJumpBufferCounter = 0.1f;
+                alreadyJumped = true;
             }
         }
+                //reset jump buffer when the A button is no longer pressed
+         if(playerJump.ReadValue<float>() == 0)
+         {
+            alreadyJumped = false;
+         }
         if(playerJump.ReadValue<float>() == 0 && canJumpCancel)
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y/1.5f);
