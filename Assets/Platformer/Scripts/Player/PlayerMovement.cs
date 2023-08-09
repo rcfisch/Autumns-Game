@@ -98,7 +98,6 @@ public class PlayerMovement : MonoBehaviour
             float speedDiff = targetSpeed/2 - rb.velocity.x;
             cotoyeTimeCounter -= Time.deltaTime;
         }
-        Debug.Log(Input);
         if(IsGrounded()){
             rb.AddForce(transform.right * Input.x * targetSpeed * playerSpeed * Time.deltaTime, ForceMode2D.Force);
         }else{

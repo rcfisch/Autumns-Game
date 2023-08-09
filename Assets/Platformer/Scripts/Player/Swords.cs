@@ -22,6 +22,7 @@ public class Swords : MonoBehaviour
     [Header("Components")]
     private SpriteRenderer sr;
     private PlayerMovement pm;
+    [SerializeField]private GameObject toLookAt;
 
     private Vector3 playerMovement;
     private float bouncePower;
@@ -46,7 +47,8 @@ public class Swords : MonoBehaviour
     }
     void Update()
     {
-        playerMovement = pm.playerControls.ReadValue<Vector2>();
-        Quaternion rotation = Quaternion.LookRotation(transform.position + playerMovement, Vector3.right);
+        playerMovement = new Vector3(pm.playerControls.ReadValue<Vector2>().x, pm.playerControls.ReadValue<Vector2>().y, 0);
+        toLookAt.transform.position = transform.position + playerMovement;
+        transform.LookAt(toLookAt.transform);
     }
 }
