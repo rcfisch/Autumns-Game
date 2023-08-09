@@ -23,7 +23,7 @@ public class Swords : MonoBehaviour
     private SpriteRenderer sr;
     private PlayerMovement pm;
 
-    private Vector2 playerMovement;
+    private Vector3 playerMovement;
     private float bouncePower;
     void Awake()
     {
@@ -46,8 +46,7 @@ public class Swords : MonoBehaviour
     }
     void Update()
     {
-        playerMovement = pm.playerControls.ReadValue<Vector2>().normalized;
-        float angle = Mathf.Atan2(playerMovement.x,playerMovement.y);
-        transform.rotation = new Quaternion(0f, 0f, angle, 0f);
+        playerMovement = pm.playerControls.ReadValue<Vector2>();
+        Quaternion rotation = Quaternion.LookRotation(transform.position + playerMovement, Vector3.right);
     }
 }
