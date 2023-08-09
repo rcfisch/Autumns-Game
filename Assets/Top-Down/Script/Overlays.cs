@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OverlaysForTopdown : MonoBehaviour
+public class Overlays : MonoBehaviour
 {
     private Canvas door;
     private Canvas bed;
