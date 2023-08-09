@@ -1144,8 +1144,47 @@ MonoBehaviour:
       m_Action: Player Controls
       m_Flags: 8
     m_Flags: 0
+  playerInteract:
+    m_Name: Player Interact
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 8a450891-6603-4d6f-aa22-d0dc3fa9a865
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 190c2531-6d7f-4be9-922a-42c130117ca3
+      m_Path: <SwitchProControllerHID>/buttonEast
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Player Interact
+      m_Flags: 0
+    m_Flags: 0
+  playerClick:
+    m_Name: Player Click
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: adb2557f-1450-4b6b-89cd-e8ba39c0bfce
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: d2c11480-df42-42b4-9b35-1751f0ea95aa
+      m_Path: <SwitchProControllerHID>/rightTrigger
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Player Click
+      m_Flags: 0
+    m_Flags: 0
   playerSpeed: 10
   mainCamera: {fileID: 469150157}
+  touchCheck: {fileID: 0}
+  touchRadius: 0.1
+  touchLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!61 &1441942065
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1178,7 +1217,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.056453466, y: -0.21013165}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1189,7 +1228,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.6863704, y: 1.6460772}
   m_EdgeRadius: 0
 --- !u!50 &1441942066
 Rigidbody2D:
