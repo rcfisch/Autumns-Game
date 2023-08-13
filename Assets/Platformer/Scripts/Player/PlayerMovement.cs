@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public InputAction playerControls;
     public InputAction playerJump;
     public InputAction playerHit;
-    private Vector2 Input;
+    [NonSerialized]public Vector2 Input;
     [Header("Player Input and Logic")]
     [SerializeField]private float jumpForce;
     public float targetSpeed;

@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class Swords : MonoBehaviour
 {
+    public InputAction swordControls;
     [Header("Levels")]
     [Range(1, 4)]
     public int swordLevel;
@@ -49,26 +50,57 @@ public class Swords : MonoBehaviour
             amountOfHits = Mathf.Infinity;
         }
     }
-    void Update()
+    void LateUpdate()
     {
-        vectorX = pm.playerControls.ReadValue<Vector2>().x;
-        vectorY = pm.playerControls.ReadValue<Vector2>().y;
+        vectorX = Mathf.Round(swordControls.ReadValue<Vector2>().x);
+        vectorY = Mathf.Round(swordControls.ReadValue<Vector2>().y);
        
         
-        radiansX = Mathf.Acos(vectorX);
-        angleX = radiansX * Mathf.Rad2Deg;
-        radiansY = Mathf.Asin(vectorY);
-        angleY = radiansX * Mathf.Rad2Deg;
-        if(vectorY < 0)
-        {
-            angleY = angleY * -1;
-        }
-         if(vectorX < 0)
-        {
-            angleY = angleY * -1;
-        }
+        //radiansX = Mathf.Acos(vectorX);
+        //angleX = radiansX * Mathf.Rad2Deg;
+        //radiansY = Mathf.Asin(vectorY);
+        //angleY = radiansX * Mathf.Rad2Deg;
+        //if(vectorY < 0)
+        //{
+        //    angleY = angleY * -1;
+        //}
+        //if(vectorX < 0)
+        //{
+        //    angleY = angleY * -1;
+        //}
 
-        transform.rotation = Quaternion.Euler(0, angleX, angleY );
-        Debug.Log(vectorY);
+        //transform.rotation = Quaternion.Euler(0, angleX, angleY );
+        //Debug.Log(vectorY);
+        if(vectorX > 0)
+        {
+            if(vectorY > 0)
+            {
+                transform.rotation = new Quaternion(0f, 135f, 0f, 0f);
+            }else if(vectorY < 0){
+                transform.rotation = new Quaternion(0f, 45f, 0f, 0f);
+            }else{
+                transform.rotation = new Quaternion(0f, 90f, 0f, 0f);
+            }
+        }else if(vectorX < 0)
+        {
+            if(vectorY > 0)
+            {
+                transform.rotation = new Quaternion(0f, -135f, 0f, 0f);
+            }else if(vectorY < 0){
+                transform.rotation = new Quaternion(0f, -45f, 0f, 0f);
+            }else{
+                transform.rotation = new Quaternion(0f, -90f, 0f, 0f);
+            }
+        }else{
+             if(vectorY > 0)
+            {
+                transform.rotation = new Quaternion(0f, 180f, 0f, 0f);
+            }else if(vectorY < 0){
+                transform.rotation = new Quaternion(0f, -180f, 0f, 0f);
+            }else{
+                transform.rotation = new Quaternion(0f, -180f, 0f, 0f);
+            }
+            Debug.Log(vectorX);
+        }
     }
 }
