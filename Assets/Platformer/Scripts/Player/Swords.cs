@@ -25,7 +25,10 @@ public class Swords : MonoBehaviour
 
     private float vectorX;
     private float vectorY;
-    private float angle;
+    private float angleX;
+    private float radiansX;
+    private float angleY;
+    private float radiansY;
     private float bouncePower;
     void Awake()
     {
@@ -51,10 +54,21 @@ public class Swords : MonoBehaviour
         vectorX = pm.playerControls.ReadValue<Vector2>().x;
         vectorY = pm.playerControls.ReadValue<Vector2>().y;
        
+        
+        radiansX = Mathf.Acos(vectorX);
+        angleX = radiansX * Mathf.Rad2Deg;
+        radiansY = Mathf.Asin(vectorY);
+        angleY = radiansX * Mathf.Rad2Deg;
+        if(vectorY < 0)
+        {
+            angleY = angleY * -1;
+        }
+         if(vectorX < 0)
+        {
+            angleY = angleY * -1;
+        }
 
-        angle = Mathf.Acos(vectorX);
-        transform.rotation = new Quaternion(0f, angle, 0f, 0f);
-        Debug.Log(angle);
-        //Debug.Log(vectorX);
+        transform.rotation = Quaternion.Euler(0, angleX, angleY );
+        Debug.Log(vectorY);
     }
 }
