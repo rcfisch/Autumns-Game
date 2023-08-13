@@ -189,9 +189,21 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3353920699418969632, guid: aadba9f1077098f45b7b93e8c8207a13, type: 3}
+      propertyPath: jumpForce
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 3353920699418969632, guid: aadba9f1077098f45b7b93e8c8207a13, type: 3}
       propertyPath: respawnPoint
       value: 
       objectReference: {fileID: 784356119}
+    - target: {fileID: 3353920699418969632, guid: aadba9f1077098f45b7b93e8c8207a13, type: 3}
+      propertyPath: fallingGravityScale
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3353920699418969632, guid: aadba9f1077098f45b7b93e8c8207a13, type: 3}
+      propertyPath: playerJump.m_SingletonActionBindings.Array.data[0].m_Interactions
+      value: Press(behavior=1)
+      objectReference: {fileID: 0}
     - target: {fileID: 4038213280131732686, guid: aadba9f1077098f45b7b93e8c8207a13, type: 3}
       propertyPath: m_LocalPosition.x
       value: -9.26
