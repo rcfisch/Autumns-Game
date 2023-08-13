@@ -22,9 +22,10 @@ public class Swords : MonoBehaviour
     [Header("Components")]
     private SpriteRenderer sr;
     private PlayerMovement pm;
-    [SerializeField]private GameObject toLookAt;
 
-    private Vector3 playerMovement;
+    private float vectorX;
+    private float vectorY;
+    private float angle;
     private float bouncePower;
     void Awake()
     {
@@ -47,8 +48,13 @@ public class Swords : MonoBehaviour
     }
     void Update()
     {
-        playerMovement = new Vector3(pm.playerControls.ReadValue<Vector2>().x, pm.playerControls.ReadValue<Vector2>().y, 0);
-        toLookAt.transform.position = transform.position + playerMovement;
-        transform.LookAt(toLookAt.transform);
+        vectorX = pm.playerControls.ReadValue<Vector2>().x;
+        vectorY = pm.playerControls.ReadValue<Vector2>().y;
+       
+
+        angle = Mathf.Acos(vectorX);
+        transform.rotation = new Quaternion(0f, angle, 0f, 0f);
+        Debug.Log(angle);
+        //Debug.Log(vectorX);
     }
 }
